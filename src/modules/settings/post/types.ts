@@ -1,0 +1,112 @@
+import { TrainSchedule } from "../../train-schedules/types";
+
+export type Post = {
+  id: number;
+  name: string;
+  type:
+    | "PLATFORM"
+    | "WINDOW"
+    | "ADS"
+    | "TRAIN_SCHEDULE_ARRIVAL"
+    | "TRAIN_SCHEDULE_DEPARTURE";
+  windowNumber: number;
+  trainSchedulesId?: number;
+  trainSchedules?: TrainSchedule;
+  backgroundType: "IMAGE" | "VIDEO" | "COLOR";
+  backgroundColor?: string;
+  backgroundVideo?: string;
+  backgroundImage?: string;
+  backgroundText?: string;
+  backgroundTextEnable: boolean;
+  backgroundTextEng?: string;
+  backgroundTextEngEnable: boolean;
+  backgroundTextFont: string;
+  backgroundTextFontsize: number;
+  backgroundTextColor: string;
+  textSliderThEnable: boolean;
+  textSliderEngEnable: boolean;
+  textSliderBackgroundColor: string;
+  textSliderColor: string;
+  textSliderFont: string;
+  textSliderFontsize: number;
+  textSliderSpeed: number;
+  textSliderTh?: string;
+  textSliderEng?: string;
+  destinationFont: string;
+  destinationFontsize: number;
+  destinationColor: string;
+  windowNumberFont: string;
+  windowNumberFontsize: number;
+  windowNumberColor: string;
+  trainTypeFont: string;
+  trainTypeFontsize: number;
+  trainTypeColor: string;
+  platformFont: string;
+  platformFontsize: number;
+  platformColor: string;
+  categoryFont: string;
+  categoryFontsize: number;
+  categoryColor: string;
+  lateTimeFont: string;
+  lateTimeFontsize: number;
+  lateTimeColor: string;
+  trainTimeFont: string;
+  trainTimeFontsize: number;
+  trainTimeColor: string;
+  topicFont: string;
+  topicFontsize: number;
+  topicColor: string;
+  postMedia?: File;
+};
+
+export interface CreatePostDto {
+  name: string;
+  type: "PLATFORM" | "WINDOW" | "ADS";
+  windowNumber: number;
+  trainSchedulesId?: number;
+  backgroundType: "IMAGE" | "VIDEO" | "COLOR";
+  backgroundColor?: string;
+  backgroundImage?: string;
+  backgroundVideo?: string;
+  backgroundText?: string;
+  backgroundTextEnable: boolean;
+  backgroundTextEng?: string;
+  backgroundTextEngEnable: boolean;
+  backgroundTextFont: string;
+  backgroundTextFontsize: number;
+  backgroundTextColor: string;
+  textSliderThEnable: boolean;
+  textSliderEngEnable: boolean;
+  textSliderBackgroundColor: string;
+  textSliderColor: string;
+  textSliderFont: string;
+  textSliderFontsize: number;
+  textSliderSpeed: number;
+  textSliderTh?: string;
+  textSliderEng?: string;
+  destinationFont: string;
+  destinationFontsize: number;
+  destinationColor: string;
+  windowNumberFont: string;
+  windowNumberFontsize: number;
+  windowNumberColor: string;
+  trainTypeFont: string;
+  trainTypeFontsize: number;
+  trainTypeColor: string;
+  platformFont: string;
+  platformFontsize: number;
+  platformColor: string;
+  categoryFont: string;
+  categoryFontsize: number;
+  categoryColor: string;
+  lateTimeFont: string;
+  lateTimeFontsize: number;
+  lateTimeColor: string;
+  trainTimeFont: string;
+  trainTimeFontsize: number;
+  trainTimeColor: string;
+  topicFont: string;
+  topicFontsize: number;
+  topicColor: string;
+  postMedia?: File;
+}

@@ -1,0 +1,5 @@
+export enum FilterVariant {
+  MULTI_SELECT = "MULTI_SELECT",
+  BOOLEAN_SELECT = "BOOLEAN_SELECT",
+  DAYS_SELECT = "DAYS_SELECT",
+}

@@ -1,0 +1,188 @@
+import React, { useEffect, useState } from "react";
+import "./index.css";
+import Slider from "./text_slider";
+import { TrainSchedule } from "../../train-schedules/types";
+import { getClientDashboard } from "../../settings/client/services/client";
+
+const TrainSchedulePage = ({ data }: { data: any }) => {
+  const [trainSchedule, setTrainSchedule] = useState<TrainSchedule[]>([]);
+
+  const trip: "ARRIVE" | "DEPARTURE" =
+    data.type === "TRAIN_SCHEDULE_ARRIVAL" ? "ARRIVE" : "DEPARTURE";
+
+  const {
+    topicFont,
+    topicColor,
+    topicFontsize,
+    trainTypeFont,
+    trainTypeColor,
+    trainTypeFontsize,
+  } = data?.form;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const trainScheduleResponse = await getClientDashboard(trip);
+      const trainScheduleData = trainScheduleResponse.data;
+      setTrainSchedule(trainScheduleData);
+
+      // console.log(trainScheduleData);
+    };
+    // implement interval fetch data every 5 seconds
+    const fetchDataInterval = setInterval(() => {
+      fetchData();
+    }, 5000);
+
+    fetchData();
+
+    return (): void => {
+      clearInterval(fetchDataInterval);
+    };
+  }, [data]);
+
+  const isSliderEnabled =
+    data.form.textSliderEngEnable || data.form.textSliderThEnable;
+
+  // Font size settings
+  const tableSetting = {
+    headerFontSize: topicFontsize,
+    headerColor: topicColor,
+    contentFontSize: trainTypeFontsize,
+    contentColor: trainTypeColor,
+  };
+
+  // สร้าง array ขนาด 10 ช่องเสมอ แต่เติมข้อมูลตามที่มีจริง
+  const TOTAL_ROWS = 10;
+  const dummyData = Array.from({ length: TOTAL_ROWS }, (_, index) => {
+    // สมมติว่าเรามีข้อมูลจริงแค่ 5 rows
+    const actualDataLength = 5; // This could be dynamic based on your actual data
+    if (index < actualDataLength) {
+      return {
+        id: index + 1,
+        trainNo: `TRNAAAAAAAAAAAAAAAAAAA${(index + 1).toString().padStart(3, "0")}`,
+        origin: "Bangkok",
+        destination: "Chiang Mai",
+        platform: `P${index + 1}`,
+        time: "10:00",
+        status: "On Time",
+      };
+    }
+    // ส่วนที่เหลือจะเป็น null
+    return null;
+  });
+
+  // Style objects
+  const headerStyle = {
+    fontSize: `${tableSetting.headerFontSize}px`,
+    color: `${tableSetting.headerColor}`,
+  };
+
+  const contentStyle = {
+    fontSize: `${tableSetting.contentFontSize}px`,
+    color: `${tableSetting.contentColor}`,
+  };
+
+  return (
+    <div className="h-screen bg-black flex flex-col">
+      <div className="flex-1 min-h-0 overflow-hidden">
+        <table className="w-full h-full border-collapse">
+          <thead>
+            <tr className="bg-gray-800 text-white" style={headerStyle}>
+              <th className="border border-gray-600 text-center">Train No.</th>
+              <th className="border border-gray-600 text-center">Origin</th>
+              <th className="border border-gray-600 text-center">
+                Destination
+              </th>
+              <th className="border border-gray-600 text-center">Platform</th>
+              <th className="border border-gray-600 text-center">Time</th>
+              <th className="border border-gray-600 text-center">Status</th>
+              <th className="border border-gray-600 text-center">Info</th>
+            </tr>
+          </thead>
+
+          <tbody className="text-white" style={contentStyle}>
+            {dummyData.map((row, index) => (
+              <tr key={index} className="h-1/10">
+                {row ? (
+                  <>
+                    <td className="border border-gray-300 text-center">
+                      {row.trainNo}
+                    </td>
+                    <td className="border border-gray-300 text-center">
+                      {row.origin}
+                    </td>
+                    <td className="border border-gray-300 text-center">
+                      {row.destination}
+                    </td>
+                    <td className="border border-gray-300 text-center">
+                      {row.platform}
+                    </td>
+                    <td className="border border-gray-300 text-center">
+                      {row.time}
+                    </td>
+                    <td className="border border-gray-300 text-center">
+                      {row.status}
+                    </td>
+                    <td className="border border-gray-300 text-center">
+                      <button
+                        className="bg-blue-500 text-white px-4 py-1 rounded"
+                        style={contentStyle}
+                      >
+                        View
+                      </button>
+                    </td>
+                  </>
+                ) : (
+                  // Empty cells with dummy text to maintain size
+                  <>
+                    <td className="border border-gray-300 text-center text-black">
+                      TRNAAAAAAAAAAAAAAAAAAA000
+                    </td>
+                    <td className="border border-gray-300 text-center text-black">
+                      Bangkok
+                    </td>
+                    <td className="border border-gray-300 text-center text-black">
+                      Chiang Mai
+                    </td>
+                    <td className="border border-gray-300 text-center text-black">
+                      P0
+                    </td>
+                    <td className="border border-gray-300 text-center text-black">
+                      10:00
+                    </td>
+                    <td className="border border-gray-300 text-center text-black">
+                      On Time
+                    </td>
+                    <td className="border border-gray-300 text-center">
+                      <button
+                        className="bg-blue-500 text-black px-4 py-1 rounded invisible"
+                        style={contentStyle}
+                      >
+                        View
+                      </button>
+                    </td>
+                  </>
+                )}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {isSliderEnabled && (
+        <div
+          className="w-full"
+          style={{
+            backgroundColor: data.form.textSliderBackgroundColor,
+            fontSize: `${data.form.textSliderFontsize}px`,
+            color: data.form.textSliderColor,
+          }}
+        >
+          <Slider data={data} />
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default TrainSchedulePage;
+

@@ -1,0 +1,13 @@
+.blink {
+  color: "#FF0000";
+  animation: animation_blink 1s linear infinite;
+}
+
+@keyframes animation_blink {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
