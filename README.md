@@ -2,35 +2,6 @@
 
 This document provides an overview of the project architecture, coding standards, and guidelines for new developers joining the team.
 
-## 🚀 Getting Started
-
-```bash
-# Install dependencies
-npm install
-# or
-pnpm install
-
-# Run development server
-npm run dev
-# or
-pnpm dev
-
-# Build for production
-npm run build
-# or
-pnpm build
-
-# Start production server
-npm start
-# or
-pnpm start
-
-# Run linting
-npm run lint
-# or
-pnpm lint
-```
-
 ## 🏗️ Project Architecture
 
 ### Tech Stack
@@ -115,17 +86,18 @@ modules/[module-name]/
 - Custom hooks wrap React Query functionality
 
 Example:
+
 ```typescript
 // services/category.ts
 export const getCategories = async (): Promise<CategoryType[]> => {
-  const response = await axiosInstance.get('/categories');
+  const response = await axiosInstance.get("/categories");
   return response.data;
 };
 
 // hooks/useQueryGetCategories.tsx
 export const useQueryGetCategories = () => {
   return useQuery({
-    queryKey: ['categories'],
+    queryKey: ["categories"],
     queryFn: getCategories,
   });
 };
@@ -141,9 +113,10 @@ Components follow a consistent structure:
 4. Export statement
 
 Example:
+
 ```tsx
-import { Button } from '@/components/ui/button';
-import { useState } from 'react';
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
 interface ExampleProps {
   title: string;
@@ -151,7 +124,7 @@ interface ExampleProps {
 
 export function Example({ title }: ExampleProps) {
   const [count, setCount] = useState(0);
-  
+
   return (
     <div>
       <h1>{title}</h1>
@@ -167,9 +140,9 @@ export function Example({ title }: ExampleProps) {
 Forms use React Hook Form with Zod validation:
 
 ```tsx
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
 const formSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -181,18 +154,16 @@ export function ExampleForm() {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: '',
+      name: "",
     },
   });
-  
+
   const onSubmit = (values: FormValues) => {
     // Handle form submission
   };
-  
+
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)}>
-      {/* Form fields */}
-    </form>
+    <form onSubmit={form.handleSubmit(onSubmit)}>{/* Form fields */}</form>
   );
 }
 ```
@@ -200,12 +171,14 @@ export function ExampleForm() {
 ## 🔄 Development Workflow
 
 1. **Feature Development**:
+
    - Create a new branch for your feature
    - Follow the existing patterns for the module you're working on
    - Ensure components are typed correctly
    - Use existing UI components from shadcn/ui when possible
 
 2. **Code Quality**:
+
    - Run linting before committing (`npm run lint`)
    - Ensure TypeScript types are properly defined
    - Follow existing naming conventions
@@ -244,3 +217,4 @@ Pages follow the Next.js App Router convention. For a typical CRUD feature:
 - [shadcn/ui Documentation](https://ui.shadcn.com)
 - [React Hook Form Documentation](https://react-hook-form.com)
 - [Zod Documentation](https://zod.dev)
+
